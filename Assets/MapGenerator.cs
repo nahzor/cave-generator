@@ -19,21 +19,13 @@ public class MapGenerator : MonoBehaviour {
 	void Start () {
 	 	// initiialize map
 		map = new int[width,height];
-		RandomFillMap ();
-
-		for (int i = 0; i < 5; i ++) {
-			SmoothMap();
-		}
+		GenerateMap ();
 		
 	}
 
 	void Update() {
 		if (Input.GetMouseButtonDown(0)) {
-			RandomFillMap ();
-
-			for (int i = 0; i < 5; i ++) {
-				SmoothMap();
-			}
+			GenerateMap ();
 		}
 	}
 
@@ -49,6 +41,18 @@ public class MapGenerator : MonoBehaviour {
 
 			}
 		}
+	}
+
+	void GenerateMap(){
+		RandomFillMap ();
+
+		for (int i = 0; i < 5; i ++) {
+			SmoothMap();
+		}
+
+		MeshGenerator meshGen = GetComponent<MeshGenerator>();
+		meshGen.GenerateMesh(map, 1);
+
 	}
 
 	int GetSurroundingWallCount(int gridX, int gridY) {
@@ -86,7 +90,7 @@ public class MapGenerator : MonoBehaviour {
 			}
 	}
 
-	void OnDrawGizmos(){
+	void roshDisableOnDrawGizmos(){
 		if (map != null)
 			for(int i=0; i< width ; i++)
 				for(int j=0; j< height ; j++)
